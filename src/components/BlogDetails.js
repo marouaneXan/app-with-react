@@ -8,17 +8,16 @@ function BlogDetails() {
     error,
   } = useFetch(`http://localhost:8000/blogs/${id}`);
   return (
-    <div>
-      <div className="blog-details">
-        <h2>Blog {id}</h2>
-        <div className="blog-preview" key={blog.id}>
-          {error && <div>{error}</div>}
-          {isPanding && <div>Loading...</div>}
+    <div className="blog-details">
+      {error && <div>{error}</div>}
+      {isPanding && <div>Loading...</div>}
+      {blog && (
+        <article>
           <h2>{blog.title}</h2>
-          <p>Writen By {blog.author}</p>
+          <p>Writen By: {blog.author}</p>
           <p>{blog.body}</p>
-        </div>
-      </div>
+        </article>
+      )}
     </div>
   );
 }
