@@ -1,13 +1,30 @@
 import { useState } from "react";
 
 const AddBlog = () => {
-    const [title,setTitle]=useState('')
-    const [author,setAuthor]=useState('')
-    const [body,setBody]=useState('')
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [body, setBody] = useState("");
+  const [isPanding, setisPanding] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setisPanding(true);
+    const blog = { title, author, body };
+    fetch("http://localhost:8000/blogs", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(blog),
+    }).then(() => {
+      console.log("Blog added successfully");
+      setisPanding(false);
+    });
+  };
   return (
     <div className="container">
       <h2>Add a new blog</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label for="title" className="form-label">
             Blog Title
@@ -17,7 +34,7 @@ const AddBlog = () => {
             className="form-control"
             id="title"
             value={title}
-            onChange={(e)=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="mb-3">
@@ -29,7 +46,7 @@ const AddBlog = () => {
             className="form-control"
             id="author"
             value={author}
-            onChange={(e)=>setAuthor(e.target.value)}
+            onChange={(e) => setAuthor(e.target.value)}
           />
         </div>
         <div className="mb-3">
@@ -41,12 +58,18 @@ const AddBlog = () => {
             className="form-control"
             id="Body"
             value={body}
-            onChange={(e)=>setBody(e.target.value)}
+            onChange={(e) => setBody(e.target.value)}
           ></textarea>
         </div>
-        <button type="submit" className="btn btn-primary">
-          Add
-        </button>
+        {!isPanding ? (
+          <button type="submit" className="btn btn-primary">
+            Add
+          </button>
+        ) : (
+          <button disabled type="submit" className="btn btn-primary">
+            Adding...
+          </button>
+        )}
       </form>
     </div>
   );
