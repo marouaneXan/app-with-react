@@ -1,34 +1,34 @@
 import BlogList from "./BlogList";
 import { useState, useEffect } from "react";
 const Home = () => {
-  const [blogs, setBlogs] = useState([
-    { title: "My new website", body: "lorem ipsum...", author: "mario", id: 1 },
-    { title: "Welcome party!", body: "lorem ipsum...", author: "yoshi", id: 2 },
-    {
-      title: "Web dev top tips",
-      body: "lorem ipsum...",
-      author: "mario",
-      id: 3,
-    },
-  ]);
+  const [blogs, setBlogs] = useState([]);
+  const [isPanding, setisPanding] = useState(true);
+  const [error, setError] = useState();
 
-  //function to delete a blog
-  const handelDelete = (id) => {
-    const newBlogs = blogs.filter((blog) => blog.id !== id);
-    setBlogs(newBlogs);
-  };
-
-  useEffect(()=>{
-    console.log('use effect run');
-    console.log(blogs);
-  },[])
+  useEffect(() => {
+    setTimeout(() => {
+      fetch(" http://localhost:8000/blogs")
+        .then((res) => {
+          if(!res.ok){
+            throw Error('could not fetch the data for the  resource')
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setBlogs(data);
+          setisPanding(false);
+        })
+        .catch(e=>{
+          setisPanding(false);
+          setError(e.message)
+        })
+    }, 1000);
+  }, []);
   return (
-    <div className="content">
-      {blogs.length > 0 ? (
-        <BlogList blogs={blogs} title="All Blogs" handelDelete={handelDelete} />
-      ) : (
-        <h2>There no Blog Yet</h2>
-      )}
+    <div className="home">
+      {error && <div>{error}</div>}
+      {isPanding && <div>Loading...</div>}
+      {blogs.length > 0 && <BlogList blogs={blogs} title="All Blogs" />}
     </div>
   );
 };
