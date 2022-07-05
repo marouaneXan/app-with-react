@@ -6,6 +6,7 @@ const AddBlog = () => {
   const [author, setAuthor] = useState("");
   const [body, setBody] = useState("");
   const [isPanding, setisPanding] = useState(false);
+  const [success,setSuccess]=useState('')
   const history=useHistory()
 
   const handleSubmit = (e) => {
@@ -19,12 +20,16 @@ const AddBlog = () => {
       },
       body: JSON.stringify(blog),
     }).then(() => {
-      setisPanding(false);
-      history.push('/');
+      setSuccess('Added New Blog Successfully')
+      setTimeout(()=>{
+        setisPanding(false);
+        history.push('/');
+      },1300)
     });
   };
   return (
     <div className="container">
+      {success && <div className="alert alert-success" role='alert'>{success}</div>}
       <h2>Add a new blog</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
