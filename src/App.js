@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import AddBlog from "./components/AddBlog";
+import BlogDetails from "./components/BlogDetails";
 import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -16,6 +17,9 @@ function App() {
             </Route>
             <Route path='/AddBlog'>
               <AddBlog/>
+            </Route>
+            <Route path='/Blog/:id'>
+              <BlogDetails/>
             </Route>
           </Switch>
         </div>
