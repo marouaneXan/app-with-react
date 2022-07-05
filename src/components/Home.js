@@ -7,9 +7,17 @@ const Home = () => {
     { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
   ]);
 
+  //function to delete a blog
+  const handelDelete=(id)=>{
+    const newBlogs=blogs.filter(blog=>blog.id!==id)
+    setBlogs(newBlogs)
+}
+
   return (
     <div className="content">
-      <BlogList blogs={blogs} title='All Blogs'/>
+      {
+        blogs.length>0  ? <BlogList blogs={blogs} title='All Blogs' handelDelete={handelDelete}/> : <h2>There no Blog Yet</h2>
+      } 
     </div>
   );
 };
