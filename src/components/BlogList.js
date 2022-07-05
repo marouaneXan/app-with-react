@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Link, useHistory } from "react-router-dom"
 const BlogList = ({blogs,title}) => {
-  const handleDelete=()=>{
-    fetch('')
+  const history=useHistory()
+  const [success,setSuccess]=useState()
+  const handleDelete=(id)=>{
+    fetch(`http://localhost:8000/blogs/${id}`,{
+      method: "DELETE",
+    }).then(()=>{
+      setSuccess('Blog deleted successfully')
+    })
   }
   return (
     <div className="blog-preview">
+      {success && setTimeout(()=>{<div className="alert alert-danger" role='alert'>{success}</div>})}
         <h1>{title}</h1>
         {
         blogs.map(blog=>(
