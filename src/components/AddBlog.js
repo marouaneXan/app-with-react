@@ -30,7 +30,7 @@ const AddBlog = () => {
   return (
     <div className="container">
       {success && <div className="alert alert-success" role='alert'>{success}</div>}
-      <h2>Add a new blog</h2>
+      <h2>Add new blog</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label for="title" className="form-label">
