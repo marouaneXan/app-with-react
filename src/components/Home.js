@@ -1,29 +1,7 @@
 import BlogList from "./BlogList";
-import { useState, useEffect } from "react";
+import useFetch from '../hooks/useFetch'
 const Home = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [isPanding, setisPanding] = useState(true);
-  const [error, setError] = useState();
-
-  useEffect(() => {
-    setTimeout(() => {
-      fetch(" http://localhost:8000/blogs")
-        .then((res) => {
-          if(!res.ok){
-            throw Error('could not fetch the data for the  resource')
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setBlogs(data);
-          setisPanding(false);
-        })
-        .catch(e=>{
-          setisPanding(false);
-          setError(e.message)
-        })
-    }, 1000);
-  }, []);
+  const {data:blogs,isPanding,error}=useFetch('http://localhost:8000/blogs')
   return (
     <div className="home">
       {error && <div>{error}</div>}
